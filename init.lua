@@ -62,7 +62,7 @@ vim.opt.timeoutlen = 300
 
 -- KEYMAPS
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" }) -- FIXME: does not seem to work
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 -- switch window focus
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
@@ -119,13 +119,10 @@ require("lazy").setup({
 		-- Useful plugin to show you pending keybinds.
 		{
 			"folke/which-key.nvim",
-			event = "VimEnter", -- Sets the loading event to 'VimEnter'
+			event = "VimEnter",
 			opts = {
 				icons = {
-					-- set icon mappings to true if you have a Nerd Font
 					mappings = vim.g.have_nerd_font,
-					-- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-					-- default whick-key.nvim defined Nerd Font icons, otherwise define a string table
 					keys = vim.g.have_nerd_font and {} or {
 						Up = "<Up> ",
 						Down = "<Down> ",
@@ -158,7 +155,6 @@ require("lazy").setup({
 					},
 				},
 
-				-- Document existing key chains
 				spec = {
 					{ "<leader>c", group = "[C]ode", mode = { "n", "x" } },
 					{ "<leader>d", group = "[D]ocument" },
@@ -177,7 +173,7 @@ require("lazy").setup({
 			branch = "0.1.x",
 			dependencies = {
 				"nvim-lua/plenary.nvim",
-				{ -- If encountering errors, see telescope-fzf-native README for installation instructions
+				{
 					"nvim-telescope/telescope-fzf-native.nvim",
 
 					build = "make",
@@ -187,7 +183,6 @@ require("lazy").setup({
 					end,
 				},
 				{ "nvim-telescope/telescope-ui-select.nvim" },
-				-- Useful for getting pretty icons, but requires a Nerd Font.
 				{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
 			},
 			config = function()
@@ -199,11 +194,9 @@ require("lazy").setup({
 					},
 				})
 
-				-- Enable Telescope extensions if they are installed
 				pcall(require("telescope").load_extension, "fzf")
 				pcall(require("telescope").load_extension, "ui-select")
 
-				-- See `:help telescope.builtin`
 				local builtin = require("telescope.builtin")
 				vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
 				vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
@@ -216,17 +209,13 @@ require("lazy").setup({
 				vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 				vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 
-				-- Slightly advanced example of overriding default behavior and theme
 				vim.keymap.set("n", "<leader>/", function()
-					-- You can pass additional configuration to Telescope to change the theme, layout, etc.
 					builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
 						winblend = 10,
 						previewer = false,
 					}))
 				end, { desc = "[/] Fuzzily search in current buffer" })
 
-				-- It's also possible to pass additional configuration options.
-				--  See `:help telescope.builtin.live_grep()` for information about particular keys
 				vim.keymap.set("n", "<leader>s/", function()
 					builtin.live_grep({
 						grep_open_files = true,
@@ -234,7 +223,6 @@ require("lazy").setup({
 					})
 				end, { desc = "[S]earch [/] in Open Files" })
 
-				-- Shortcut for searching your Neovim configuration files
 				vim.keymap.set("n", "<leader>sn", function()
 					builtin.find_files({ cwd = vim.fn.stdpath("config") })
 				end, { desc = "[S]earch [N]eovim files" })
@@ -248,7 +236,6 @@ require("lazy").setup({
 			ft = "lua",
 			opts = {
 				library = {
-					-- Load luvit types when the `vim.uv` word is found
 					{ path = "luvit-meta/library", words = { "vim%.uv" } },
 				},
 			},
